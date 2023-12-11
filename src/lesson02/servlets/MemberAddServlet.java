@@ -3,7 +3,6 @@ package lesson02.servlets;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -37,17 +36,12 @@ public class MemberAddServlet extends HttpServlet {
 	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		
 		try {
 			ServletContext sc = this.getServletContext();
-			Class.forName(sc.getInitParameter("driver"));
-			conn = DriverManager.getConnection(
-					sc.getInitParameter("url"), 
-					sc.getInitParameter("username"), 
-					sc.getInitParameter("password"));
+			Connection conn = (Connection)sc.getAttribute("conn");
 			stmt = conn.prepareStatement("INSERT INTO MEMBERS VALUES(MNO_SEQ.nextVal, ?, ?, ?, SYSDATE, SYSDATE)");
 			stmt.setString(1, request.getParameter("email"));
 			stmt.setString(2, request.getParameter("password"));
@@ -56,11 +50,10 @@ public class MemberAddServlet extends HttpServlet {
 			
 			response.sendRedirect("list");
 		} catch (Exception e) {
-			new ServletException(e);
+			e.printStackTrace();
 		} finally {
 			try { if (rs != null) rs.close(); } catch (SQLException e) {}
 			try { if (stmt != null) stmt.close(); } catch (SQLException e) {}
-			try { if (conn != null) conn.close(); } catch (SQLException e) {}
 		}
 	}
 }

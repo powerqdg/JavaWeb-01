@@ -3,7 +3,6 @@ package lesson02.servlets;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -21,17 +20,12 @@ public class MemberListServlet extends GenericServlet {
 
 	@Override
 	public void service(ServletRequest request, ServletResponse response) throws ServletException, IOException {
-		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rs = null;
 		
 		try {
 			ServletContext sc = this.getServletContext();
-			Class.forName(sc.getInitParameter("driver"));
-			conn = DriverManager.getConnection(
-					sc.getInitParameter("url"), 
-					sc.getInitParameter("username"), 
-					sc.getInitParameter("password"));
+			Connection conn = (Connection)sc.getAttribute("conn");
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery("SELECT MNO, EMAIL, MNAME, CRE_DATE, MOD_DATE FROM MEMBERS ORDER BY MNO");
 			
@@ -55,7 +49,6 @@ public class MemberListServlet extends GenericServlet {
 		} finally {
 			try { if (rs != null) rs.close(); } catch (SQLException e) {}
 			try { if (stmt != null) stmt.close(); } catch (SQLException e) {}
-			try { if (conn != null) conn.close(); } catch (SQLException e) {}
 		}
 	}
 
