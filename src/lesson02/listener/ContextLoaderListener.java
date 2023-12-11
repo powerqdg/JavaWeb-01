@@ -1,22 +1,19 @@
-package lesson02.servlets;
+package lesson02.listener;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 
 import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
 
-public class AppInitServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+public class ContextLoaderListener implements ServletContextListener {
 	Connection conn = null;
 	
 	@Override
-	public void init() throws ServletException {
-		super.init();
-		
+	public void contextInitialized(ServletContextEvent sce) {
 		try {
-			ServletContext sc = this.getServletContext();
+			ServletContext sc = sce.getServletContext();
 			Class.forName(sc.getInitParameter("driver"));
 			conn = DriverManager.getConnection(
 					sc.getInitParameter("url"), 
@@ -29,9 +26,7 @@ public class AppInitServlet extends HttpServlet {
 	}
 	
 	@Override
-	public void destroy() {
-		super.destroy();
-		
+	public void contextDestroyed(ServletContextEvent sce) {
 		try {
 			if (conn != null) conn.close();
 		} catch (Exception e) {}
