@@ -19,6 +19,18 @@
     <param-value>tiger</param-value>
   </context-param>
     
+  <filter>
+    <filter-name>CharacterEncodingFilter</filter-name>
+    <filter-class>lesson02.filters.CharacterEncodingFilter</filter-class>
+    <init-param>
+      <param-name>type</param-name>
+      <param-value>UTF-8</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>CharacterEncodingFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
   <!-- 서블릿 선언 -->
   
   
