@@ -8,13 +8,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/member/update")
 public class MemberUpdateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
@@ -25,11 +24,12 @@ public class MemberUpdateServlet extends HttpServlet {
 		ResultSet rs = null;
 		
 		try {
-			DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
+			ServletConfig sc = this.getServletConfig();
+			Class.forName(sc.getInitParameter("driver"));
 			conn = DriverManager.getConnection(
-					"jdbc:oracle:thin:@localhost:1521:orcl", 
-					"scott", 
-					"tiger");
+					sc.getInitParameter("url"), 
+					sc.getInitParameter("username"), 
+					sc.getInitParameter("password"));
 			stmt = conn.prepareStatement("SELECT MNO, MNAME, EMAIL FROM MEMBERS WHERE MNO = ?");
 			stmt.setInt(1, Integer.parseInt(request.getParameter("mno")));
 			rs = stmt.executeQuery();
@@ -63,11 +63,12 @@ public class MemberUpdateServlet extends HttpServlet {
 		ResultSet rs = null;
 		
 		try {
-			DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
+			ServletConfig sc = this.getServletConfig();
+			Class.forName(sc.getInitParameter("driver"));
 			conn = DriverManager.getConnection(
-					"jdbc:oracle:thin:@localhost:1521:orcl", 
-					"scott", 
-					"tiger");
+					sc.getInitParameter("url"), 
+					sc.getInitParameter("username"), 
+					sc.getInitParameter("password"));
 			stmt = conn.prepareStatement("UPDATE MEMBERS SET MNAME = ?, EMAIL = ? WHERE MNO = ?");
 			stmt.setString(1, request.getParameter("mname"));
 			stmt.setString(2, request.getParameter("email"));

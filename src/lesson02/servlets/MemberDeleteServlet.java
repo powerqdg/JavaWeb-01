@@ -1,20 +1,18 @@
 package lesson02.servlets;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/member/delete")
 public class MemberDeleteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
@@ -25,11 +23,12 @@ public class MemberDeleteServlet extends HttpServlet {
 		ResultSet rs = null;
 		
 		try {
-			DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
+			ServletConfig sc = this.getServletConfig();
+			Class.forName(sc.getInitParameter("driver"));
 			conn = DriverManager.getConnection(
-					"jdbc:oracle:thin:@localhost:1521:orcl", 
-					"scott", 
-					"tiger");
+					sc.getInitParameter("url"), 
+					sc.getInitParameter("username"), 
+					sc.getInitParameter("password"));
 			stmt = conn.prepareStatement("DELETE FROM MEMBERS WHERE MNO = ?");
 			stmt.setInt(1, Integer.parseInt(request.getParameter("mno")));
 			stmt.executeUpdate();

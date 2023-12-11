@@ -9,12 +9,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.servlet.GenericServlet;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.annotation.WebServlet;
 
-@WebServlet("/member/list")
 public class MemberListServlet extends GenericServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -25,11 +24,12 @@ public class MemberListServlet extends GenericServlet {
 		ResultSet rs = null;
 		
 		try {
-			DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
+			ServletConfig sc = this.getServletConfig();
+			Class.forName(sc.getInitParameter("driver"));
 			conn = DriverManager.getConnection(
-					"jdbc:oracle:thin:@localhost:1521:orcl", 
-					"scott", 
-					"tiger");
+					sc.getInitParameter("url"), 
+					sc.getInitParameter("username"), 
+					sc.getInitParameter("password"));
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery("SELECT MNO, EMAIL, MNAME, CRE_DATE, MOD_DATE FROM MEMBERS ORDER BY MNO");
 			

@@ -8,13 +8,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/member/add")
 public class MemberAddServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
@@ -41,11 +40,12 @@ public class MemberAddServlet extends HttpServlet {
 		ResultSet rs = null;
 		
 		try {
-			DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
+			ServletConfig sc = this.getServletConfig();
+			Class.forName(sc.getInitParameter("driver"));
 			conn = DriverManager.getConnection(
-					"jdbc:oracle:thin:@localhost:1521:orcl", 
-					"scott", 
-					"tiger");
+					sc.getInitParameter("url"), 
+					sc.getInitParameter("username"), 
+					sc.getInitParameter("password"));
 			stmt = conn.prepareStatement("INSERT INTO MEMBERS VALUES(MNO_SEQ.nextVal, ?, ?, ?, SYSDATE, SYSDATE)");
 			stmt.setString(1, request.getParameter("email"));
 			stmt.setString(2, request.getParameter("password"));
@@ -53,17 +53,6 @@ public class MemberAddServlet extends HttpServlet {
 			stmt.executeUpdate();
 			
 			response.sendRedirect("list");
-			/*
-			response.setContentType("text/html;charset=UTF-8");
-			PrintWriter out = response.getWriter();
-			out.println("<html><head><title>회원결과</title>");
-			out.println("<body>");
-			out.println("<h1>회원결과</h1>");
-			out.println("<p>등록에 성공하였습니다.</p>");
-			out.println("</body></html>");
-			
-			response.setHeader("Refresh", "1;url=list");
-			*/
 		} catch (Exception e) {
 			new ServletException(e);
 		} finally {
