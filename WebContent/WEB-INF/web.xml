@@ -20,40 +20,10 @@
   </context-param>
     
   <!-- 서블릿 선언 -->
-  <servlet>
-    <servlet-name>add</servlet-name>
-    <servlet-class>lesson02.servlets.MemberAddServlet</servlet-class>
-  </servlet>
-  <servlet>
-    <servlet-name>delete</servlet-name>
-    <servlet-class>lesson02.servlets.MemberDeleteServlet</servlet-class>
-  </servlet>
-  <servlet>
-    <servlet-name>list</servlet-name>
-    <servlet-class>lesson02.servlets.MemberListServlet</servlet-class>
-  </servlet>
-  <servlet>
-    <servlet-name>update</servlet-name>
-    <servlet-class>lesson02.servlets.MemberUpdateServlet</servlet-class>
-  </servlet>
+  
   
   <!-- 서블릿 URL 매핑 -->
-  <servlet-mapping>
-    <servlet-name>add</servlet-name>
-    <url-pattern>/member/add</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>delete</servlet-name>
-    <url-pattern>/member/delete</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>list</servlet-name>
-    <url-pattern>/member/list</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>update</servlet-name>
-    <url-pattern>/member/update</url-pattern>
-  </servlet-mapping>
+  
   
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>

@@ -9,12 +9,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.servlet.GenericServlet;
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebServlet;
 
+@WebServlet("/member/list")
 public class MemberListServlet extends GenericServlet {
 	private static final long serialVersionUID = 1L;
 
