@@ -10,6 +10,7 @@ import java.sql.Statement;
 
 import javax.servlet.GenericServlet;
 import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -24,7 +25,7 @@ public class MemberListServlet extends GenericServlet {
 		ResultSet rs = null;
 		
 		try {
-			ServletConfig sc = this.getServletConfig();
+			ServletContext sc = this.getServletContext();
 			Class.forName(sc.getInitParameter("driver"));
 			conn = DriverManager.getConnection(
 					sc.getInitParameter("url"), 
