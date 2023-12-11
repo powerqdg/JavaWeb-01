@@ -7,7 +7,9 @@ import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebServlet;
 
+@WebServlet("/hello")
 public class HelloWorld implements Servlet {
 	ServletConfig config;
 	
