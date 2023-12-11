@@ -44,7 +44,8 @@ public class MemberListServlet extends GenericServlet {
 							rs.getString("EMAIL") + ", " + 
 							rs.getString("MNAME") + ", " +
 							rs.getDate("CRE_DATE") + ", " +
-							rs.getDate("MOD_DATE") + "<br>"); 
+							rs.getDate("MOD_DATE") + 
+							"<a href='delete?mno=" + rs.getInt("MNO") + "'>[삭제]</a>" + "<br>"); 
 			}
 			out.println("</body></html>");
 		} catch (Exception e) {
