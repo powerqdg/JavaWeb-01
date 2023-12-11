@@ -52,6 +52,8 @@ public class MemberAddServlet extends HttpServlet {
 			stmt.setString(3, request.getParameter("mname"));
 			stmt.executeUpdate();
 			
+			response.sendRedirect("list");
+			/*
 			response.setContentType("text/html;charset=UTF-8");
 			PrintWriter out = response.getWriter();
 			out.println("<html><head><title>회원결과</title>");
@@ -61,6 +63,7 @@ public class MemberAddServlet extends HttpServlet {
 			out.println("</body></html>");
 			
 			response.setHeader("Refresh", "1;url=list");
+			*/
 		} catch (Exception e) {
 			new ServletException(e);
 		} finally {
