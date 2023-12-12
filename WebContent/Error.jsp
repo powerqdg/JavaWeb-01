@@ -4,7 +4,6 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Refresh" content="1;url=list">
 <title>시스템 오류</title>
 </head>
 <body>

@@ -6,10 +6,10 @@
 [HEADER] 페이지입니다.
 <span style="float:right;">
 <% if (member == null) { %>
-<a href="../auth/login">로그인</a>
+<a href="../auth/login.do">로그인</a>
 <%} else {%>
 <%=member.getMname() %>
-<a href="../auth/logout">로그아웃</a>
+<a href="../auth/logout.do">로그아웃</a>
 <% } %>
 </span>
 </div>

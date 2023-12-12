@@ -9,7 +9,7 @@
 <body>
 <jsp:include page="/Header.jsp"/>
 <h1>회원추가</h1>
-<form action="add" method="post">
+<form action="add.do" method="post">
 이름: <input type="text" name="mname"><br>
 이메일: <input type="text" name="email"><br>
 비밀번호: <input type="password" name="password"><br>

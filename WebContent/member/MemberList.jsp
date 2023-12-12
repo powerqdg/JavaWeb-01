@@ -11,17 +11,17 @@
 <body>
 <jsp:include page="/Header.jsp"/>
 <h1>회원목록</h1>
-<p><a href="add">신규추가</a></p>
+<p><a href="add.do">신규추가</a></p>
 <%
 ArrayList<Member> members = (ArrayList<Member>)request.getAttribute("members");
 %>
 <% for (Member member : members) { %>
 <%=member.getMno() %>, 
-<a href="update?mno=<%=member.getMno() %>"><%=member.getMname() %></a>, 
+<a href="update.do?mno=<%=member.getMno() %>"><%=member.getMname() %></a>, 
 <%=member.getEmail() %>, 
 <%=member.getCreDate() %>, 
 <%=member.getModDate() %>
-<a href="delete?mno=<%=member.getMno() %>">[삭제]</a><br>
+<a href="delete.do?mno=<%=member.getMno() %>">[삭제]</a><br>
 <% } %>
 <jsp:include page="/Tail.jsp"/>
 </body>
