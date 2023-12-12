@@ -4,6 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Refresh" content="1;url=login">
 <title>로그인 실패</title>
 </head>
 <body>
