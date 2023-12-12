@@ -1,7 +1,6 @@
 package lesson02.servlets;
 
 import java.io.IOException;
-import java.sql.Connection;
 
 import javax.servlet.GenericServlet;
 import javax.servlet.RequestDispatcher;
