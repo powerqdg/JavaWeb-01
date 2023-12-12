@@ -1,18 +1,20 @@
 package lesson02.servlets;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import lesson02.vo.Member;
 
 @WebServlet("/member/update")
 public class MemberUpdateServlet extends HttpServlet {
@@ -26,23 +28,20 @@ public class MemberUpdateServlet extends HttpServlet {
 		try {
 			ServletContext sc = this.getServletContext();
 			Connection conn = (Connection)sc.getAttribute("conn");
-			stmt = conn.prepareStatement("SELECT MNO, MNAME, EMAIL FROM MEMBERS WHERE MNO = ?");
+			stmt = conn.prepareStatement("SELECT MNO, MNAME, EMAIL, CRE_DATE, MOD_DATE FROM MEMBERS WHERE MNO = ?");
 			stmt.setInt(1, Integer.parseInt(request.getParameter("mno")));
 			rs = stmt.executeQuery();
 			rs.next();
 			
-			response.setContentType("text/html;charset=UTF-8");
-			PrintWriter out = response.getWriter();
-			out.println("<html><head><title>회원수정</title>");
-			out.println("<body>");
-			out.println("<h1>회원수정</h1>");
-			out.println("<form action='update' method='post'>");
-			out.println("번호: " + "<input type='text' name='mno' value='"+ rs.getInt("MNO") + "' readonly>" + "<br>");
-			out.println("이름: " + "<input type='text' name='mname' value='"+ rs.getString("MNAME") + "'>" + "<br>");
-			out.println("이메일: " + "<input type='text' name='email' value='"+ rs.getString("EMAIL") + "'>" + "<br>");
-			out.println("<input type='submit' value='수정'><input type='reset' value='취소'>");
-			out.println("</form>");
-			out.println("</body></html>");
+			request.setAttribute("member", new Member()
+					.setMno(rs.getInt("MNO"))
+					.setMname(rs.getString("MNAME"))
+					.setEmail(rs.getString("EMAIL"))
+					.setCreDate(rs.getDate("CRE_DATE"))
+					.setModDate(rs.getDate("MOD_DATE")));
+			
+			RequestDispatcher rd = request.getRequestDispatcher("/member/MemberUpdate.jsp");
+			rd.forward(request, response);
 		} catch (Exception e) {
 			new ServletException(e);
 		} finally {

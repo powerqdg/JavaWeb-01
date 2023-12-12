@@ -1,18 +1,21 @@
 package lesson02.servlets;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import javax.servlet.GenericServlet;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebServlet;
+
+import lesson02.vo.Member;
 
 @WebServlet("/member/list")
 public class MemberListServlet extends GenericServlet {
@@ -29,21 +32,20 @@ public class MemberListServlet extends GenericServlet {
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery("SELECT MNO, EMAIL, MNAME, CRE_DATE, MOD_DATE FROM MEMBERS ORDER BY MNO");
 			
-			response.setContentType("text/html;charset=UTF-8");
-			PrintWriter out = response.getWriter();
-			out.println("<html><head><title>회원목록</title>");
-			out.println("<body>");
-			out.println("<h1>회원목록</h1>");
-			out.println("<a href='add'>신규추가</a>" + "<br>");
+			ArrayList<Member> members = new ArrayList<Member>();
+			
 			while (rs.next()) {
-				out.println(rs.getInt("MNO") + ", " + 
-							"<a href='update?mno=" + rs.getInt("MNO") + "'>" + rs.getString("EMAIL") + "</a>" + ", " + 
-							rs.getString("MNAME") + ", " +
-							rs.getDate("CRE_DATE") + ", " +
-							rs.getDate("MOD_DATE") + 
-							"<a href='delete?mno=" + rs.getInt("MNO") + "'>[삭제]</a>" + "<br>"); 
+				members.add(new Member()
+						.setMno(rs.getInt("MNO"))
+						.setEmail(rs.getString("EMAIL"))
+						.setMname(rs.getString("MNAME"))
+						.setCreDate(rs.getDate("CRE_DATE"))
+						.setModDate(rs.getDate("MOD_DATE")));
 			}
-			out.println("</body></html>");
+			request.setAttribute("members", members);
+			response.setContentType("text/html;charset=UTF-8");
+			RequestDispatcher rd = request.getRequestDispatcher("/member/MemberList.jsp");
+			rd.include(request, response);
 		} catch (Exception e) {
 			new ServletException(e);
 		} finally {

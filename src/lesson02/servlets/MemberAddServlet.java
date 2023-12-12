@@ -1,12 +1,12 @@
 package lesson02.servlets;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,18 +20,8 @@ public class MemberAddServlet extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setContentType("text/html;charset=UTF-8");
-		PrintWriter out = response.getWriter();
-		out.println("<html><head><title>회원등록</title>");
-		out.println("<body>");
-		out.println("<h1>회원등록</h1>");
-		out.println("<form action='add' method='post'>");
-		out.println("이름: " + "<input type='text' name='mname'>" + "<br>");
-		out.println("이메일: " + "<input type='text' name='email'>" + "<br>");
-		out.println("비밀번호: " + "<input type='text' name='password'>" + "<br>");
-		out.println("<input type='submit' value='등록'><input type='reset' value='취소'>");
-		out.println("</form>");
-		out.println("</body></html>");
+		RequestDispatcher rd = request.getRequestDispatcher("/member/MemberAdd.jsp");
+		rd.forward(request, response);
 	}
 	
 	@Override
