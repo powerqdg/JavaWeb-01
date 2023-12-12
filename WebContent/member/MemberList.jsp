@@ -9,6 +9,7 @@
 <title>회원목록</title>
 </head>
 <body>
+<jsp:include page="/Header.jsp"/>
 <h1>회원목록</h1>
 <p><a href="add">신규추가</a></p>
 <%
@@ -22,5 +23,6 @@ ArrayList<Member> members = (ArrayList<Member>)request.getAttribute("members");
 <%=member.getModDate() %>
 <a href="delete?mno=<%=member.getMno() %>">[삭제]</a><br>
 <% } %>
+<jsp:include page="/Tail.jsp"/>
 </body>
 </html>
