@@ -1,11 +1,10 @@
 package lesson02.listener;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+
+import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
 
 import lesson02.controls.LoginController;
 import lesson02.controls.LogoutController;
@@ -16,21 +15,21 @@ import lesson02.controls.MemberUpdateController;
 import lesson02.dao.MemberDao;
 
 public class ContextLoaderListener implements ServletContextListener {
-	Connection conn = null;
+	BasicDataSource ds = null;
 	
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
 		try {
 			ServletContext sc = sce.getServletContext();
-			Class.forName(sc.getInitParameter("driver"));
-			conn = DriverManager.getConnection(
-					sc.getInitParameter("url"), 
-					sc.getInitParameter("username"), 
-					sc.getInitParameter("password"));
-			sc.setAttribute("conn", conn);
+			
+			ds = new BasicDataSource();
+			ds.setDriverClassName(sc.getInitParameter("driver"));
+			ds.setUrl(sc.getInitParameter("url"));
+			ds.setUsername(sc.getInitParameter("username"));
+			ds.setPassword(sc.getInitParameter("password"));
 			
 			MemberDao memberDao = new MemberDao();
-			memberDao.setConnection(conn);
+			memberDao.setDataSource(ds);
 			
 			sc.setAttribute("memberDao", memberDao);
 			
@@ -54,7 +53,7 @@ public class ContextLoaderListener implements ServletContextListener {
 	@Override
 	public void contextDestroyed(ServletContextEvent sce) {
 		try {
-			if (conn != null) conn.close();
+			if (ds != null) ds.close();
 		} catch (Exception e) {}
 	}
 }

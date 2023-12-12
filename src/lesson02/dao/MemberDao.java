@@ -7,20 +7,24 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import javax.sql.DataSource;
+
 import lesson02.vo.Member;
 
 public class MemberDao {
-	Connection conn = null;
+	DataSource ds = null;
 	
-	public void setConnection(Connection conn) {
-		this.conn = conn;
+	public void setDataSource(DataSource ds) {
+		this.ds = ds;
 	}
 	
 	public int insert(Member member) throws Exception {
+		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		
 		try {
+			conn = ds.getConnection();
 			stmt = conn.prepareStatement("INSERT INTO MEMBERS VALUES(MNO_SEQ.nextVal, ?, ?, ?, SYSDATE, SYSDATE)");
 			stmt.setString(1, member.getEmail());
 			stmt.setString(2, member.getPassword());
@@ -32,14 +36,17 @@ public class MemberDao {
 		} finally {
 			try { if (rs != null) rs.close(); } catch (SQLException e) {}
 			try { if (stmt != null) stmt.close(); } catch (SQLException e) {}
+			try { if (conn != null) conn.close(); } catch (SQLException e) {}
 		}
 	}
 	
 	public ArrayList<Member> selectList() throws Exception {
+		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rs = null;
 		
 		try {
+			conn = ds.getConnection();
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery("SELECT MNO, EMAIL, MNAME, CRE_DATE, MOD_DATE FROM MEMBERS ORDER BY MNO");
 			
@@ -59,14 +66,17 @@ public class MemberDao {
 		} finally {
 			try { if (rs != null) rs.close(); } catch (SQLException e) {}
 			try { if (stmt != null) stmt.close(); } catch (SQLException e) {}
+			try { if (conn != null) conn.close(); } catch (SQLException e) {}
 		}
 	}
 	
 	public Member selectOne(int mno) throws Exception {
+		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		
 		try {
+			conn = ds.getConnection();
 			stmt = conn.prepareStatement("SELECT MNO, MNAME, EMAIL, CRE_DATE, MOD_DATE FROM MEMBERS WHERE MNO = ?");
 			stmt.setInt(1, mno);
 			rs = stmt.executeQuery();
@@ -83,14 +93,17 @@ public class MemberDao {
 		} finally {
 			try { if (rs != null) rs.close(); } catch (SQLException e) {}
 			try { if (stmt != null) stmt.close(); } catch (SQLException e) {}
+			try { if (conn != null) conn.close(); } catch (SQLException e) {}
 		}
 	}
 	
 	public int update(Member member) throws Exception {
+		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		
 		try {
+			conn = ds.getConnection();
 			stmt = conn.prepareStatement("UPDATE MEMBERS SET MNAME = ?, EMAIL = ? WHERE MNO = ?");
 			stmt.setString(1, member.getMname());
 			stmt.setString(2, member.getEmail());
@@ -102,14 +115,17 @@ public class MemberDao {
 		} finally {
 			try { if (rs != null) rs.close(); } catch (SQLException e) {}
 			try { if (stmt != null) stmt.close(); } catch (SQLException e) {}
+			try { if (conn != null) conn.close(); } catch (SQLException e) {}
 		}
 	}
 	
 	public int delete(int mno) throws Exception {
+		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		
 		try {
+			conn = ds.getConnection();
 			stmt = conn.prepareStatement("DELETE FROM MEMBERS WHERE MNO = ?");
 			stmt.setInt(1, mno);
 			
@@ -119,14 +135,17 @@ public class MemberDao {
 		} finally {
 			try { if (rs != null) rs.close(); } catch (SQLException e) {}
 			try { if (stmt != null) stmt.close(); } catch (SQLException e) {}
+			try { if (conn != null) conn.close(); } catch (SQLException e) {}
 		}
 	}
 	
 	public Member exist(Member member) throws Exception {
+		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		
 		try {
+			conn = ds.getConnection();
 			stmt = conn.prepareStatement("SELECT MNO, MNAME, EMAIL FROM MEMBERS WHERE EMAIL = ? AND PWD = ?");
 			stmt.setString(1, member.getEmail());
 			stmt.setString(2, member.getPassword());
@@ -144,6 +163,7 @@ public class MemberDao {
 		} finally {
 			try { if (rs != null) rs.close(); } catch (SQLException e) {}
 			try { if (stmt != null) stmt.close(); } catch (SQLException e) {}
+			try { if (conn != null) conn.close(); } catch (SQLException e) {}
 		}
 	}
 }
