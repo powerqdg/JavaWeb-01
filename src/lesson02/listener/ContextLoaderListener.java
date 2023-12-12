@@ -7,6 +7,8 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
+import lesson02.dao.MemberDao;
+
 public class ContextLoaderListener implements ServletContextListener {
 	Connection conn = null;
 	
@@ -20,6 +22,11 @@ public class ContextLoaderListener implements ServletContextListener {
 					sc.getInitParameter("username"), 
 					sc.getInitParameter("password"));
 			sc.setAttribute("conn", conn);
+			
+			MemberDao memberDao = new MemberDao();
+			memberDao.setConnection(conn);
+			
+			sc.setAttribute("memberDao", memberDao);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
