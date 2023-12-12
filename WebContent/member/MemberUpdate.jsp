@@ -8,6 +8,7 @@
 <title>회원수정</title>
 </head>
 <body>
+<jsp:include page="/Header.jsp"/>
 <h1>회원수정</h1>
 <% Member member = (Member)request.getAttribute("member"); %>
 <form action="update" method="post">
@@ -18,5 +19,6 @@
 수정일: <span><%=member.getModDate() %></span><br>
 <input type="submit" value="수정"><input type="reset" value="취소">
 </form>
+<jsp:include page="/Tail.jsp"/>
 </body>
 </html>
