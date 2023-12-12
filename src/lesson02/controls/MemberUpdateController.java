@@ -6,9 +6,15 @@ import lesson02.dao.MemberDao;
 import lesson02.vo.Member;
 
 public class MemberUpdateController implements Controller {
+	MemberDao memberDao;
+	
+	public MemberUpdateController setMemberDao(MemberDao memberDao) {
+		this.memberDao = memberDao;
+		return this;
+	}
+	
 	@Override
 	public String excute(HashMap<String, Object> model) throws Exception {
-		MemberDao memberDao = (MemberDao)model.get("memberDao");
 		Member member = (Member)model.get("member");
 		
 		if (member == null) {
