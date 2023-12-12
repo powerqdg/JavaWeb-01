@@ -4,10 +4,11 @@ import java.util.HashMap;
 
 import javax.servlet.http.HttpSession;
 
+import lesson02.bind.DataBinding;
 import lesson02.dao.MemberDao;
 import lesson02.vo.Member;
 
-public class LoginController implements Controller {
+public class LoginController implements Controller, DataBinding {
 	MemberDao memberDao;
 	
 	public LoginController setMemberDao(MemberDao memberDao) {
@@ -16,9 +17,16 @@ public class LoginController implements Controller {
 	}
 	
 	@Override
+	public Object[] getDataBinders() {
+		return new Object[] {
+				"loginInfo", lesson02.vo.Member.class
+		};
+	}
+	
+	@Override
 	public String excute(HashMap<String, Object> model) throws Exception {
 		Member loginInfo = (Member)model.get("loginInfo");
-		if (loginInfo == null) {
+		if (loginInfo.getEmail() == null) {
 			return "/auth/LoginForm.jsp";
 		} else {
 			Member member = memberDao.exist(loginInfo);
