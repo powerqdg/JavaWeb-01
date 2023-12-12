@@ -26,8 +26,6 @@ public class ContextLoaderListener implements ServletContextListener {
 			MemberDao memberDao = new MemberDao();
 			memberDao.setDataSource(ds);
 			
-			sc.setAttribute("memberDao", memberDao);
-			
 			sc.setAttribute("/auth/login.do", 
 					new LoginController().setMemberDao(memberDao));
 			sc.setAttribute("/auth/logout.do", 
