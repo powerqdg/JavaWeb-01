@@ -12,13 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import lesson02.controls.Controller;
-import lesson02.controls.LoginController;
-import lesson02.controls.LogoutController;
-import lesson02.controls.MemberAddController;
-import lesson02.controls.MemberDeleteController;
-import lesson02.controls.MemberListController;
-import lesson02.controls.MemberUpdateController;
-import lesson02.dao.MemberDao;
 import lesson02.vo.Member;
 
 @WebServlet("*.do")

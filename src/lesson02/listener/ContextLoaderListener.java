@@ -12,7 +12,7 @@ import lesson02.controls.MemberAddController;
 import lesson02.controls.MemberDeleteController;
 import lesson02.controls.MemberListController;
 import lesson02.controls.MemberUpdateController;
-import lesson02.dao.MemberDao;
+import lesson02.dao.OracleMemberDao;
 
 public class ContextLoaderListener implements ServletContextListener {
 	@Override
@@ -23,7 +23,7 @@ public class ContextLoaderListener implements ServletContextListener {
 			InitialContext initialContext = new InitialContext();
 			DataSource ds = (DataSource)initialContext.lookup("java:comp/env/jdbc/orcl");
 			
-			MemberDao memberDao = new MemberDao();
+			OracleMemberDao memberDao = new OracleMemberDao();
 			memberDao.setDataSource(ds);
 			
 			sc.setAttribute("/auth/login.do", 
