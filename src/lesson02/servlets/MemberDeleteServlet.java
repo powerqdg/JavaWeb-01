@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -31,7 +32,9 @@ public class MemberDeleteServlet extends HttpServlet {
 			
 			response.sendRedirect("list");
 		} catch (Exception e) {
-			new ServletException(e);
+			request.setAttribute("error", e);
+			RequestDispatcher rd = request.getRequestDispatcher("../Error.jsp");
+			rd.forward(request, response);
 		} finally {
 			try { if (rs != null) rs.close(); } catch (SQLException e) {}
 			try { if (stmt != null) stmt.close(); } catch (SQLException e) {}

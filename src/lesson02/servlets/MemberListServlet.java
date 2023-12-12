@@ -47,7 +47,9 @@ public class MemberListServlet extends GenericServlet {
 			RequestDispatcher rd = request.getRequestDispatcher("/member/MemberList.jsp");
 			rd.include(request, response);
 		} catch (Exception e) {
-			new ServletException(e);
+			request.setAttribute("error", e);
+			RequestDispatcher rd = request.getRequestDispatcher("../Error.jsp");
+			rd.forward(request, response);
 		} finally {
 			try { if (rs != null) rs.close(); } catch (SQLException e) {}
 			try { if (stmt != null) stmt.close(); } catch (SQLException e) {}
