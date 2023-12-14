@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="lesson02.dao.MemberDao">
+  <resultMap type="member" id="memberResultMap">
+    <id column="MNO" property="mno"/>
+    <result column="EMAIL" property="email"/>
+    <result column="PWD" property="password"/>
+    <result column="MNAME" property="mname"/>
+    <result column="CRE_DATE" property="creDate" javaType="java.sql.Date"/>
+    <result column="MOD_DATE" property="modDate" javaType="java.sql.Date"/>
+  </resultMap>
+  
+  <insert id="insert" parameterType="member">
+    insert into members(MNO, EMAIL, PWD, MNAME, CRE_DATE, MOD_DATE)
+    values(MNO_SEQ.nextVal, #{email}, #{password}, #{mname}, SYSDATE, SYSDATE)
+  </insert>
+  
+  <select id="selectList" resultMap="memberResultMap">
+    select MNO, MNAME, EMAIL, CRE_DATE, MOD_DATE
+    from MEMBERS
+    order by MNO desc
+  </select>
+  
+  <select id="selectOne" parameterType="int" resultMap="memberResultMap">
+    select MNO, MNAME, EMAIL, CRE_DATE, MOD_DATE
+    from MEMBERS
+    where MNO = #{mno}
+  </select>
+  
+  <update id="update" parameterType="member">
+    update MEMBERS set MNAME = #{mname}, EMAIL = #{email}, MOD_DATE = SYSDATE where MNO = #{mno}
+  </update>
+  
+  <delete id="delete" parameterType="int">
+    delete from MEMBERS where MNO = #{mno}
+  </delete>
+  
+  <select id="exist" parameterType="member">
+    select MNO, MNAME, EMAIL, CRE_DATE, MOD_DATE
+    from MEMBERS
+    where EMAIL = #{email} AND PWD = #{password}
+  </select>
+</mapper>

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Properties;
 import java.util.Set;
 
+import javax.naming.Context;
 import javax.naming.InitialContext;
 
 import org.reflections.Reflections;
@@ -19,19 +20,29 @@ public class ApplicationContext {
 		return objTable.get(key);
 	}
 	
-	public ApplicationContext(String propertiesPath) throws Exception {
+	public Object addBean(String key, Object obj) {
+		return objTable.put(key, obj);
+	}
+	
+	
+	public void prepareObjectsByAnnotation(String basePackage) throws Exception {
+		Reflections reflector = new Reflections(basePackage);
+		Set<Class<?>> list = reflector.getTypesAnnotatedWith(Component.class);
+		String key = null;
+		for (Class<?> clazz : list) {
+			key = clazz.getAnnotation(Component.class).value();
+				objTable.put(key, clazz.newInstance());
+		}
+	}
+	
+	public void prepareObjectsByProperties(String propertiesPath) throws Exception {
 		Properties props = new Properties();
 		props.load(new FileReader(propertiesPath));
 		
-		prepareObjects(props);
-		prepareAnnotationObjects();
-		injectionDependency();
-	}
-	
-	private void prepareObjects(Properties props) throws Exception {
-		InitialContext ctx = new InitialContext();
+		Context ctx = new InitialContext();
 		String key = null;
-		String value = null;
+		String value= null;
+		
 		for (Object item : props.keySet()) {
 			key = (String)item;
 			value = props.getProperty(key);
@@ -43,17 +54,7 @@ public class ApplicationContext {
 		}
 	}
 	
-	private void prepareAnnotationObjects() throws Exception {
-		Reflections reflector = new Reflections("");
-		Set<Class<?>> list = reflector.getTypesAnnotatedWith(Component.class);
-		String key = null;
-		for (Class<?> clazz : list) {
-			key = clazz.getAnnotation(Component.class).value();
-				objTable.put(key, clazz.newInstance());
-		}
-	}
-	
-	private void injectionDependency() throws Exception {
+	public void injectionDependency() throws Exception {
 		for (String key : objTable.keySet()) {
 			if (!key.startsWith("jndi.")) {
 				callSetter(objTable.get(key));
