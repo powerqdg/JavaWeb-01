@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.annotation.WebServlet;
@@ -14,7 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import lesson02.bind.DataBinding;
 import lesson02.bind.ServletRequestDataBinder;
+import lesson02.context.ApplicationContext;
 import lesson02.controls.Controller;
+import lesson02.listener.ContextLoaderListener;
 
 @WebServlet("*.do")
 public class DispatcherServlet extends HttpServlet {
@@ -26,12 +27,12 @@ public class DispatcherServlet extends HttpServlet {
 		String servletPath = request.getServletPath();
 		
 		try {
-			ServletContext sc = this.getServletContext();
+			ApplicationContext ctx = ContextLoaderListener.getApplicationContext();
 			
 			HashMap<String, Object> model = new HashMap<String, Object>();
 			model.put("session", request.getSession());
 			
-			Controller pageController = (Controller)sc.getAttribute(servletPath);
+			Controller pageController = (Controller)ctx.getBean(servletPath);
 			if (pageController instanceof DataBinding) {
 				prepareRequestData(request, model, (DataBinding)pageController);
 			}

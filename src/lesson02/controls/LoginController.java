@@ -4,10 +4,12 @@ import java.util.HashMap;
 
 import javax.servlet.http.HttpSession;
 
+import lesson02.annotation.Component;
 import lesson02.bind.DataBinding;
 import lesson02.dao.MemberDao;
 import lesson02.vo.Member;
 
+@Component("/auth/login")
 public class LoginController implements Controller, DataBinding {
 	MemberDao memberDao;
 	

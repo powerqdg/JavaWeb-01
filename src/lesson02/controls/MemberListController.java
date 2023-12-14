@@ -2,9 +2,10 @@ package lesson02.controls;
 
 import java.util.HashMap;
 
-import lesson02.bind.DataBinding;
+import lesson02.annotation.Component;
 import lesson02.dao.MemberDao;
 
+@Component("/member/list")
 public class MemberListController implements Controller {
 	MemberDao memberDao;
 	
