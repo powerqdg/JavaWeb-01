@@ -9,7 +9,7 @@ import lesson02.bind.DataBinding;
 import lesson02.dao.MemberDao;
 import lesson02.vo.Member;
 
-@Component("/auth/login")
+@Component("/auth/login.do")
 public class LoginController implements Controller, DataBinding {
 	MemberDao memberDao;
 	

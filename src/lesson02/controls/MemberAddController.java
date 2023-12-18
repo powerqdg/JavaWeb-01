@@ -7,7 +7,7 @@ import lesson02.bind.DataBinding;
 import lesson02.dao.MemberDao;
 import lesson02.vo.Member;
 
-@Component("/member/add")
+@Component("/member/add.do")
 public class MemberAddController implements Controller, DataBinding {
 	MemberDao memberDao;
 	

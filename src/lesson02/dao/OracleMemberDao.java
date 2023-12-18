@@ -5,8 +5,10 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
+import lesson02.annotation.Component;
 import lesson02.vo.Member;
 
+@Component("memberDao")
 public class OracleMemberDao implements MemberDao {
 	SqlSessionFactory sqlSessionFactory = null;
 	 

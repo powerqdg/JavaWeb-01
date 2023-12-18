@@ -5,7 +5,7 @@ import java.util.HashMap;
 import lesson02.annotation.Component;
 import lesson02.dao.MemberDao;
 
-@Component("/member/list")
+@Component("/member/list.do")
 public class MemberListController implements Controller {
 	MemberDao memberDao;
 	

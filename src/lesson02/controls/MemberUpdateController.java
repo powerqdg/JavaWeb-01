@@ -7,7 +7,7 @@ import lesson02.bind.DataBinding;
 import lesson02.dao.MemberDao;
 import lesson02.vo.Member;
 
-@Component("/member/update")
+@Component("/member/update.do")
 public class MemberUpdateController implements Controller, DataBinding {
 	MemberDao memberDao;
 	
